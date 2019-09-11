@@ -17,7 +17,22 @@
 %if the corresponding point is visible, and in red otherwise. enumerate enumerate
 % the order of the vertices in  vertices1,  vertices2 using the function fliplr. 
 %item item:test-polygon above with the reversed edges. enumerate
-function polygon_isVisible_test()
 
 %The function should display four separate figures in total, each one with a
 %single polygon and lines from each vertex in the polygon, to each point.
+function polygon_isVisible_test()
+
+vertices = [2,3,4,3,2,1;
+            1,1,2.5,4,4,2.5];
+indexVertex = 3;
+testPoints = [2;2];
+
+polygon_plot(vertices,'b')
+hold on;
+plot(testPoints(1),testPoints(2),'ko')
+
+disp(polygon_isVisible(vertices,indexVertex,testPoints))
+
+end
+
+
