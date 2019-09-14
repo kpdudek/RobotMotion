@@ -15,11 +15,22 @@ function [flagPoint]=polygon_isSelfOccluded(vertex,vertexPrev,vertexNext,point)
 cone_angle = edge_angle(vertex,vertexPrev,vertexNext,'unsigned');
 point_angle = edge_angle(vertex,vertexPrev,point,'unsigned');
 
-if point_angle < cone_angle && point_angle > 0
-    flagPoint = true;
-    return
+if cone_angle <= deg2rad(180)
+    pointOccluded = (point_angle < cone_angle) && (point_angle > 0);
+    if pointOccluded
+        flagPoint = true;
+        return
+    else
+        flagPoint = false;
+    end
 else
-    flagPoint = false;
+    pointOccluded = (point_angle > cone_angle) && (point_angle > 0);
+    if pointOccluded
+        flagPoint = true;
+        return
+    else
+        flagPoint = false;
+    end
 end
 
 end

@@ -18,7 +18,8 @@ function [flag]=edge_isCollision(vertices1,vertices2)
 
 % Zero length condition returns no collision. If x and y points are the
 % same, the line is considered zero length
-if ((vertices1(1,1)==vertices1(1,2)) && (vertices1(1,1)==vertices1(2,2))) || ((vertices2(1,1)==vertices2(1,2)) && (vertices2(1,1)==vertices2(2,2)))
+zeroLength = ((vertices1(1,1)==vertices1(1,2)) && (vertices1(1,1)==vertices1(2,2))) || ((vertices2(1,1)==vertices2(1,2)) && (vertices2(1,1)==vertices2(2,2)));
+if zeroLength
     flag = false;
     return
 end
@@ -27,7 +28,8 @@ end
 % coordinate are equal for each vertex in the two arrays
 for iVertex = 1:2
     for jVertex = 1:2
-        if (vertices1(1,iVertex) == vertices2(1,jVertex)) && (vertices1(2,iVertex) == vertices2(2,jVertex))
+        endpointIntersection = (vertices1(1,iVertex) == vertices2(1,jVertex)) && (vertices1(2,iVertex) == vertices2(2,jVertex));
+        if endpointIntersection
             flag = false;
             return
         end
@@ -47,13 +49,14 @@ if vertices1_linearSlope == vertices2_linearSlope
     return
 end
 
-% Compute the actual intersections. The first condition handles vertical
+% Compute the actual intersections. The first two conditions handles vertical
 % lines
 if vertices1_linearSlope == Inf
     vertices1_xValue = vertices1(1,1);
     y_intersection = vertices2_linearSlope * vertices1_xValue + vertices2_Yintercept;
     
-    if (y_intersection <= max(vertices1(2,:))) && (y_intersection >= min(vertices1(2,:))) && (y_intersection <= max(vertices2(2,:))) && (y_intersection >= min(vertices2(2,:)))
+    yinRange = (y_intersection <= max(vertices1(2,:))) && (y_intersection >= min(vertices1(2,:))) && (y_intersection <= max(vertices2(2,:))) && (y_intersection >= min(vertices2(2,:)));
+    if yinRange
         flag = true;
         return
     else
@@ -65,7 +68,8 @@ elseif vertices2_linearSlope == Inf
     vertices2_xValue = vertices2(1,1);
     y_intersection = vertices1_linearSlope * vertices2_xValue + vertices1_Yintercept;
     
-    if (y_intersection <= max(vertices1(2,:))) && (y_intersection >= min(vertices1(2,:))) && (y_intersection <= max(vertices2(2,:))) && (y_intersection >= min(vertices2(2,:)))
+    yinRange = (y_intersection <= max(vertices1(2,:))) && (y_intersection >= min(vertices1(2,:))) && (y_intersection <= max(vertices2(2,:))) && (y_intersection >= min(vertices2(2,:)));
+    if yinRange
         flag = true;
         return
     else
@@ -80,11 +84,13 @@ else
     % If the intersection x value falls in the x-range for each set of vertices
     % then they are considered intersecting edges
     % By using a <= or >= single end point
-    if (x_intersection <= max(vertices1(1,:))) && (x_intersection >= min(vertices1(1,:))) && (x_intersection <= max(vertices2(1,:))) && (x_intersection >= min(vertices2(1,:)))
+    xinRange = (x_intersection <= max(vertices1(1,:))) && (x_intersection >= min(vertices1(1,:))) && (x_intersection <= max(vertices2(1,:))) && (x_intersection >= min(vertices2(1,:)));
+    if xinRange
         flag = true;
         return
     else
         flag = false;
         return
+    end
 end
 end

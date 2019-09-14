@@ -22,17 +22,76 @@
 %single polygon and lines from each vertex in the polygon, to each point.
 function polygon_isVisible_test()
 
-vertices = [2,3,4,3,2,1;
-            1,1,2.5,4,4,2.5];
-indexVertex = 3;
-testPoints = [2;2];
+testPoints = zeros(2,5);
+for iColumns = 1:length(testPoints(1,:))
+    testPoints(1,iColumns) = randi([0,5]);
+    testPoints(2,iColumns) = randi([-2,2]);
+end
 
-polygon_plot(vertices,'b')
-hold on;
-plot(testPoints(1),testPoints(2),'ko')
+[vertices1,vertices2] = twolink_polygons();
 
-disp(polygon_isVisible(vertices,indexVertex,testPoints))
 
+figure('Name','Polygon 1');
+polygon_plot(vertices1,'b')
+testPointsWithPolygon = [testPoints,vertices1];
+
+for iVertex = 1:length(vertices1(1,:))
+    flagVisible = polygon_isVisible(vertices1,iVertex,testPointsWithPolygon);
+    for iPoints = 1:length(testPointsWithPolygon)
+        if flagVisible(iPoints)
+            quiver(vertices1(1,iVertex),vertices1(2,iVertex),testPointsWithPolygon(1,iPoints),testPointsWithPolygon(2,iPoints),'g','AutoScale','off')
+        else
+            quiver(vertices1(1,iVertex),vertices1(2,iVertex),testPointsWithPolygon(1,iPoints),testPointsWithPolygon(2,iPoints),'r','AutoScale','off')
+        end
+    end
+end
+
+figure('Name','Polygon 2');
+polygon_plot(vertices2,'b')
+testPointsWithPolygon = [testPoints,vertices2];
+
+for iVertex = 1:length(vertices2(1,:))
+    flagVisible = polygon_isVisible(vertices2,iVertex,testPointsWithPolygon);
+    for iPoints = 1:length(testPointsWithPolygon)
+        if flagVisible(iPoints)
+            quiver(vertices2(1,iVertex),vertices2(2,iVertex),testPointsWithPolygon(1,iPoints),testPointsWithPolygon(2,iPoints),'g','AutoScale','off')
+        else
+            quiver(vertices2(1,iVertex),vertices2(2,iVertex),testPointsWithPolygon(1,iPoints),testPointsWithPolygon(2,iPoints),'r','AutoScale','off')
+        end
+    end
+end
+
+figure('Name','Polygon 3');
+vertices1 = fliplr(vertices1);
+polygon_plot(vertices1,'b')
+testPointsWithPolygon = [testPoints,vertices1];
+
+for iVertex = 1:length(vertices1(1,:))
+    flagVisible = polygon_isVisible(vertices1,iVertex,testPointsWithPolygon);
+    for iPoints = 1:length(testPointsWithPolygon)
+        if flagVisible(iPoints)
+            quiver(vertices1(1,iVertex),vertices1(2,iVertex),testPointsWithPolygon(1,iPoints),testPointsWithPolygon(2,iPoints),'g','AutoScale','off')
+        else
+            quiver(vertices1(1,iVertex),vertices1(2,iVertex),testPointsWithPolygon(1,iPoints),testPointsWithPolygon(2,iPoints),'r','AutoScale','off')
+        end
+    end
+end
+
+figure('Name','Polygon 4');
+vertices2 = fliplr(vertices2);
+polygon_plot(vertices2,'b')
+testPointsWithPolygon = [testPoints,vertices2];
+
+for iVertex = 1:length(vertices2(1,:))
+    flagVisible = polygon_isVisible(vertices2,iVertex,testPointsWithPolygon);
+    for iPoints = 1:length(testPointsWithPolygon)
+        if flagVisible(iPoints)
+            quiver(vertices2(1,iVertex),vertices2(2,iVertex),testPointsWithPolygon(1,iPoints),testPointsWithPolygon(2,iPoints),'g','AutoScale','off')
+        else
+            quiver(vertices2(1,iVertex),vertices2(2,iVertex),testPointsWithPolygon(1,iPoints),testPointsWithPolygon(2,iPoints),'r','AutoScale','off')
+        end
+    end
+end
 end
 
 

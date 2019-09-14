@@ -5,5 +5,8 @@ function polygon_plot_test()
     figure('Name','polygon_plot()')
     test_polygon = [2,3,4,3,2,1;
                     1,1,2.5,4,4,2.5];
-    polygon_plot(test_polygon,'r')
+
+    polygon_plot(test_polygon,'b')
+    xlim([0 5])
+    ylim([0 5])
 end
