@@ -31,7 +31,7 @@ vertex2 = vertices(:,iNextElement);
 % If the point is self occluded it is not visible and move on
 % If the point is not self occluded check if the ray from vertex_i to P
 % collides with any edge in the polygon
-flagPoints = zeros(2,length(testPoints(1,:)));
+flagPoints = false(1,length(testPoints(1,:)));
 for iPoint = 1:length(testPoints(1,:))
     point = testPoints(:,iPoint);
     pointOccluded = polygon_isSelfOccluded(vertex0,vertex1,vertex2,point);
@@ -43,7 +43,7 @@ for iPoint = 1:length(testPoints(1,:))
             if iVertex == 1
                 % If the vertex is the first in the array, make the previous
                 % vertex the last element in the array
-                edge = [vertices(1,iVertex),vertices(1,end);vertices(2,iVertex),vertices(2,end)];
+                edge = [vertices(1,end),vertices(1,iVertex);vertices(2,end),vertices(2,iVertex)];
                 pointRay = [vertices(1,iVertex),point(1);vertices(2,iVertex),point(2)];
                 if edge_isCollision(edge,pointRay)
                     flagPoints(iPoint) = false;
@@ -51,7 +51,7 @@ for iPoint = 1:length(testPoints(1,:))
                     flagPoints(iPoint) = true;
                 end
             else
-                edge = [vertices(1,iVertex),vertices(1,iVertex-1);vertices(2,iVertex),vertices(2,iVertex-1)];
+                edge = [vertices(1,iVertex-1),vertices(1,iVertex);vertices(2,iVertex-1),vertices(2,iVertex)];
                 pointRay = [vertices(1,iVertex),point(1);vertices(2,iVertex),point(2)];
                 if edge_isCollision(edge,pointRay)
                     flagPoints(iPoint) = false;

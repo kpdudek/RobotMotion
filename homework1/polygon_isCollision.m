@@ -3,7 +3,7 @@
 %filled in polygon, and outside for a hollow polygon).
 function [flagPoints]=polygon_isCollision(vertices,testPoints)
 
-flagPoints = zeros(1,length(testPoints(1,:)));
+flagPoints = false(1,length(testPoints(1,:)));
 for iPoint = 1:length(testPoints(1,:))
     for iVertex = 1:length(vertices(1,:))
         flagVisible = polygon_isVisible(vertices,iVertex,testPoints);

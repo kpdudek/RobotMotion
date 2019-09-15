@@ -30,7 +30,7 @@ end
 
 [vertices1,vertices2] = twolink_polygons();
 
-
+%%
 figure('Name','Polygon 1');
 polygon_plot(vertices1,'b')
 testPointsWithPolygon = [testPoints,vertices1];
@@ -45,7 +45,7 @@ for iVertex = 1:length(vertices1(1,:))
         end
     end
 end
-
+%%
 figure('Name','Polygon 2');
 polygon_plot(vertices2,'b')
 testPointsWithPolygon = [testPoints,vertices2];
@@ -60,7 +60,7 @@ for iVertex = 1:length(vertices2(1,:))
         end
     end
 end
-
+%%
 figure('Name','Polygon 3');
 vertices1 = fliplr(vertices1);
 polygon_plot(vertices1,'b')
@@ -76,7 +76,7 @@ for iVertex = 1:length(vertices1(1,:))
         end
     end
 end
-
+%%
 figure('Name','Polygon 4');
 vertices2 = fliplr(vertices2);
 polygon_plot(vertices2,'b')
