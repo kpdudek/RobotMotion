@@ -8,7 +8,8 @@ load('twolink_testData.mat');
 NConfigurations=30;
 theta=2*pi*randn(2,NConfigurations);
 for iConfiguration=1:NConfigurations
-    twolink_drawCollision(theta(:,iConfiguration),obstaclePoints);
+    twolink_plotCollision(theta(:,iConfiguration),obstaclePoints);
     hold on
 end
 hold off
+axis equal
