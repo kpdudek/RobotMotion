@@ -6,7 +6,37 @@
 %produce a total of four windows (or, alternatively, a single window with four
 %subplots), each window (or subplot) showing all the configurations of the
 %manipulator superimposed on each other.
-function torus_twolink()
 
 % @boxDodgerBlue3 white  optional For each window (or subplot), use the color of
 %the corresponding curve as used in Question  q:torusDrawChartsTangents.
+
+function torus_twolink()
+
+a1 = [3/4*pi;0];
+a2 = [3/4*pi;3/4*pi];
+a3 = [-3/4*pi;3/4*pi];
+a4 = [0;-3/4*pi];
+a = [a1,a2,a3,a4];
+b = [-1;-1];
+
+colors = {'m','y','c','g'};
+for iCurve = 1:length(a(1,:))
+    figure()
+    hold on
+    axis equal
+    %thetaPoints = torus_phiPushCurve(a(:,iCurve),b);
+    thetaPoints = line_linspace(a(:,iCurve),b,0,1,31);
+    thetaDot = ones(size(thetaPoints));
+    thetaDot = [thetaDot(1,:).*a(1,iCurve);thetaDot(2,:)];
+    thetaDot = [thetaDot(1,:);thetaDot(2,:).*a(2,iCurve)];
+    eff_dot = twolink_jacobian(thetaPoints,thetaDot);
+    
+    for iPoint = 1:length(thetaPoints(1,:))
+        twolink_plot(thetaPoints(:,iPoint),'b')
+        p_eff = twolink_kinematicMap(thetaPoints(:,iPoint));
+        quiver(p_eff(1),p_eff(2),eff_dot(1,iPoint),eff_dot(2,iPoint),colors{iCurve})
+    end
+    
+end
+
+end

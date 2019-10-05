@@ -5,3 +5,8 @@
 %using line_linspace with $ tMin=0$ and $ tMax=1$, and $a$, $b$ as given in the
 %input arguments.
 function [xPoints]=torus_phiPushCurve(a,b)
+
+thetaPoints = line_linspace(a,b,0,1,31);
+xPoints = torus_phi(thetaPoints);
+
+end
