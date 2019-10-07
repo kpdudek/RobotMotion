@@ -19,9 +19,12 @@ a4 = [0;-3/4*pi];
 a = [a1,a2,a3,a4];
 b = [-1;-1];
 
+figure()
+hold on
+
 colors = {'m','y','c','g'};
 for iCurve = 1:length(a(1,:))
-    figure()
+    subplot(2,2,iCurve)
     hold on
     axis equal
     %thetaPoints = torus_phiPushCurve(a(:,iCurve),b);

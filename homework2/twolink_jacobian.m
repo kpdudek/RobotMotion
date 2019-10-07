@@ -26,7 +26,7 @@ for iTheta = 1:length(theta(1,:))
              thetaDot2 , 0
            ];
     
-    vertexEffectorDot(:,iTheta) = (rot2d(theta1)*hat1)*(rot2d(theta2)*hat2)*p_eff + (rot2d(theta1)*hat1)*B1_T_B2;
+    vertexEffectorDot(:,iTheta) = (hat1*rot2d(theta1))*(rot2d(theta2))*p_eff + (rot2d(theta1))*(hat2*rot2d(theta2))*p_eff + (hat1*rot2d(theta1))*B1_T_B2;
 end
 
 end

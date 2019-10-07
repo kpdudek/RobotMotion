@@ -26,6 +26,7 @@ U4 = [ pi-.3    ,  pi-.3;
        2*pi+.3  ,  2*pi+.3
      ];
  
+figure() 
 hold on
 axis equal
 
