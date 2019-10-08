@@ -10,7 +10,7 @@
 % @boxDodgerBlue3 white  optional For each window (or subplot), use the color of
 %the corresponding curve as used in Question  q:torusDrawChartsTangents.
 
-function torus_twolink_plot()
+function torus_twolink_plotJacobian()
 
 a1 = [3/4*pi;0];
 a2 = [3/4*pi;3/4*pi];
@@ -19,13 +19,14 @@ a4 = [0;-3/4*pi];
 a = [a1,a2,a3,a4];
 b = [-1;-1];
 
-figure()
-hold on
+
 
 colors = {'m','y','c','g'};
 for iCurve = 1:length(a(1,:))
-    subplot(2,2,iCurve)
+    figure()
     hold on
+    %subplot(2,2,iCurve)
+    %hold on
     axis equal
     %thetaPoints = torus_phiPushCurve(a(:,iCurve),b);
     thetaPoints = line_linspace(a(:,iCurve),b,0,1,31);
