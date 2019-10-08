@@ -32,19 +32,19 @@ axis equal
 
 grid1=struct('xx',linspace(U1(1,1),U1(2,1),33),'yy',linspace(U1(1,2),U1(2,2),33));
 grid1=grid_eval(grid1,fun);
-surf(grid1.F(:,:,1),grid1.F(:,:,2),grid1.F(:,:,3),'FaceColor','b','FaceAlpha',.75)
+surf(grid1.F(:,:,1),grid1.F(:,:,2),grid1.F(:,:,3),'FaceColor','b','FaceAlpha',.75,'HandleVisibility','off')
 
 grid2=struct('xx',linspace(U2(1,1),U2(2,1),33),'yy',linspace(U2(1,2),U2(2,2),33));
 grid2=grid_eval(grid2,fun);
-surf(grid2.F(:,:,1),grid2.F(:,:,2),grid2.F(:,:,3),'FaceColor','g','FaceAlpha',.75)
+surf(grid2.F(:,:,1),grid2.F(:,:,2),grid2.F(:,:,3),'FaceColor','g','FaceAlpha',.75,'HandleVisibility','off')
 
 grid3=struct('xx',linspace(U3(1,1),U3(2,1),33),'yy',linspace(U3(1,2),U3(2,2),33));
 grid3=grid_eval(grid3,fun);
-surf(grid3.F(:,:,1),grid3.F(:,:,2),grid3.F(:,:,3),'FaceColor','k','FaceAlpha',.75)
+surf(grid3.F(:,:,1),grid3.F(:,:,2),grid3.F(:,:,3),'FaceColor','k','FaceAlpha',.75,'HandleVisibility','off')
 
 grid4=struct('xx',linspace(U4(1,1),U4(2,1),33),'yy',linspace(U4(1,2),U4(2,2),33));
 grid4=grid_eval(grid4,fun);
-surf(grid4.F(:,:,1),grid4.F(:,:,2),grid4.F(:,:,3),'FaceColor','r','FaceAlpha',.75)
+surf(grid4.F(:,:,1),grid4.F(:,:,2),grid4.F(:,:,3),'FaceColor','r','FaceAlpha',.75,'HandleVisibility','off')
 
 end
 

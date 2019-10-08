@@ -25,7 +25,8 @@ hold on
 colors = {'m','y','c','g'};
 for iCurve = 1:length(a(1,:))
     xPoints = torus_phiPushCurve(a(:,iCurve),b);
-    plot3(xPoints(1,:),xPoints(2,:),xPoints(3,:),colors{iCurve})
+    plot3(xPoints(1,:),xPoints(2,:),xPoints(3,:),colors{iCurve},'LineWidth',2)
 end
+legend('a1','a2','a3','a4')
 
 end

@@ -10,7 +10,7 @@
 % @boxDodgerBlue3 white  optional For each window (or subplot), use the color of
 %the corresponding curve as used in Question  q:torusDrawChartsTangents.
 
-function torus_twolink()
+function torus_twolink_plot()
 
 a1 = [3/4*pi;0];
 a2 = [3/4*pi;3/4*pi];
