@@ -9,10 +9,9 @@ xPath = NaN(2,NSteps);
 UPath = NaN(1,NSteps);
 
 xPath(:,1) = xStart;
-pot = gradHandle.U(xPath(:,1),world,potential);
+UPath(1) = gradHandle.U(xPath(:,1),world,potential);
 for iStep = 2:1000
-    pot = gradHandle.U(xPath(:,iStep),world,potential);
-    UPath(iStep) = pot;
+    UPath(iStep) = gradHandle.U(xPath(:,iStep),world,potential);
     potGrad = gradHandle.gradU(xPath(:,iStep-1),world,potential);
     xPath(:,iStep) = xPath(iStep-1) + epsilon*potGrad;
     if norm(potGrad) < 10^-3
