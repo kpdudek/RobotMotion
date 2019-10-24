@@ -3,3 +3,5 @@
 %effector with respect to the joint angles as derived in Question 
 %q:jacobian-matrix.
 function [Jtheta]=twolink_jacobianMatrix(theta)
+
+

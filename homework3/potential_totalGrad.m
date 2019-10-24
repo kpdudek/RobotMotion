@@ -7,8 +7,7 @@ gradUattr = potential_attractiveGrad(xEval,potential);
 gradU = gradUattr;
 for iRep = 1:length(world)
     gradUrep = potential_repulsiveSphereGrad(xEval,world(iRep));
-    gradU = gradU + (potential.repulsiveWeight .* gradUrep);
+    gradU = gradU + (potential.repulsiveWeight * gradUrep);
 end
-
 
 end
