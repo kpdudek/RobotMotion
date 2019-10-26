@@ -24,8 +24,8 @@ for iPoint = 1:length(points(1,:))
     end
     
     theta = atan((yPoint-ySphere)/(xPoint-xSphere));
-    xEdge = sphere.radius * cos(theta) + xSphere;
-    yEdge = sphere.radius * sin(theta) + ySphere;
+    xEdge = abs(sphere.radius) * cos(theta) + xSphere;
+    yEdge = abs(sphere.radius) * sin(theta) + ySphere;
     
     dPointsSphere(iPoint) = Dist;
     pointsSphere(:,iPoint) = [xEdge;yEdge];

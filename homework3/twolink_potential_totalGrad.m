@@ -5,3 +5,8 @@
 %of the end effector in the world frame as a function of the joint angles $vec17E
 %= _1\\ _2$.
 function [gradUTheta]=twolink_potential_totalGrad(thetaEval,world,potential)
+
+xEval = twolink_kinematicMap(thetaEval);
+gradUTheta = twolink_jacobianMatrix(thetaEval)' * potential_totalGrad(xEval,world,potential);
+
+end

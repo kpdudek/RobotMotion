@@ -4,3 +4,8 @@
 %q:total-potential, and $  Wp_ eff( )$ is the position of the end effector in the
 %world frame as a function of the joint angles $vec17E = _1\\ _2$.
 function [UTheta]=twolink_potential_total(thetaEval,world,potential)
+
+xEval = twolink_kinematicMap(thetaEval);
+UTheta = potential_total(xEval,world,potential);
+
+end
