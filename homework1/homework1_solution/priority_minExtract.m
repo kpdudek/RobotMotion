@@ -14,4 +14,6 @@ idxMin=idxMin(1);
 key=pQueue(idxMin).key;
 cost=pQueue(idxMin).cost;
 pQueue(idxMin)=[];
-
+if isempty(pQueue)
+    pQueue=priority_prepare();
+end
