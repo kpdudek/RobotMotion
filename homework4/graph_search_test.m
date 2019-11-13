@@ -5,7 +5,7 @@ load('graph_testData.mat')
 load('Grid_Graph.mat')
 load('rec_graph.mat')
 
-bigG = buildGraph(50);
+bigG = buildGraph(70);
 
 Graph = bigG;
 idxStart = 1;
