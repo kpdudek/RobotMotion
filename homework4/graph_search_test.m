@@ -3,8 +3,11 @@ close all;
 
 load('graph_testData.mat')
 load('Grid_Graph.mat')
+load('rec_graph.mat')
 
-Graph = gridGraph_RandCost;
+bigG = buildGraph(50);
+
+Graph = bigG;
 idxStart = 1;
 idxGoal = length(Graph);
 

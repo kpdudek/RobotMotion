@@ -33,8 +33,8 @@ while ~isempty(pqOpen)
     for idxX = 1:length(idxNeighbors)
         [graphVector,pqOpen] = graph_expandElement(graphVector,idxNBest,idxNeighbors(idxX),idxGoal,pqOpen);
     end
-%     graph_plot(graphVector,'start',idxStart,'goal',idxGoal)
-%     pause(.05)
+    graph_plot(graphVector,'start',idxStart,'goal',idxGoal)
+    pause(.02)
 end
 
 xPath = graph_path(graphVector,idxStart,idxGoal);

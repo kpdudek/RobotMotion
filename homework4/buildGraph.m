@@ -1,12 +1,23 @@
 function graphVector = buildGraph(nodes)
 
-grid = struct('xx',linspace(-10,10,NCells),'yy',linspace(-10,10,NCells));
+grid = struct('xx',linspace(-20,20,nodes),'yy',linspace(-20,20,nodes));
 
-pot = struct('xGoal',[5;5],'repulsiveWeight',5,'shape','conic');
-fun = @potential_total;
-grid = grid_eval(grid,fun);
+fun = @obstacles;
+grid = grid_eval_rec(grid,fun);
 
 graphVector = grid2graph(grid);
+
+end
+
+function out = obstacles(x)
+
+val = rand() * 10;
+
+if val < 2
+    out = false;
+else
+    out = true;
+end
 
 end
 % 

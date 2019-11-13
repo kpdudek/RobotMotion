@@ -100,7 +100,7 @@ if flagBackpointers
     xBackpointerDiff=0.2*(xAll(:,idxBackpointer)-xBackpointerStart);
     quiver(xBackpointerStart(1,:),xBackpointerStart(2,:),...
         xBackpointerDiff(1,:),xBackpointerDiff(2,:),...
-        'g','LineWidth',2,'AutoScale',false)
+        'g','LineWidth',3,'AutoScale',true)
 end
 
 %backpointer costs
