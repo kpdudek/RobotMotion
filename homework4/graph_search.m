@@ -34,7 +34,7 @@ while ~isempty(pqOpen)
         [graphVector,pqOpen] = graph_expandElement(graphVector,idxNBest,idxNeighbors(idxX),idxGoal,pqOpen);
     end
     graph_plot(graphVector,'start',idxStart,'goal',idxGoal)
-    pause(.005)
+    pause(.00001)
 end
 
 xPath = graph_path(graphVector,idxStart,idxGoal);
