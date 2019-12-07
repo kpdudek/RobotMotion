@@ -25,8 +25,8 @@ count = 1;
 QFree = initRobot();
 collision = initRobot();
 
-r1 = 0:45:359;
-r2 = 0:22.5:45;
+r1 = 0:22.5:359;
+r2 = 0:11.25:45;
 r3 = 0:22.5:45;
 r4 = 0;
 for iTheta1 = r1
