@@ -14,11 +14,13 @@ link1 = [x',y',z(.2)'];
 link2 = [x',y'-.1,z(.5)'];
 link3 = [x',y',z(.5)'];
 link4 = [x',y',z(.2)'];
+eef = [0;0;.2];
 
 links.link1  = struct('Link','1','Points',link1);
 links.link2  = struct('Link','2','Points',link2);
 links.link3  = struct('Link','3','Points',link3);
 links.link4  = struct('Link','4','Points',link4);
+links.EEF = struct('Link','EEF','Points',eef);
 
 worldLinks = KinemeticMap(links,thetas);
 

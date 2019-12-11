@@ -18,4 +18,6 @@ for iPoint = 1:length(links.link1.Points)
     links.link3.Points(iPoint,:) = (R1*R2*R3*links.link3.Points(iPoint,:)' + R1*R2*T3 + R1*T2 + T1)';
     links.link4.Points(iPoint,:) = (R1*R2*R3*R4*links.link4.Points(iPoint,:)' + R1*R2*R3*T4 + R1*R2*T3 + R1*T2 + T1)';
 end
+
+links.EEF.Points(:,1) = (R1*R2*R3*R4*links.EEF.Points(:,1) + R1*R2*R3*T4 + R1*R2*T3 + R1*T2 + T1)';
 end
