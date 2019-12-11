@@ -1,6 +1,6 @@
 function [worldLinks] = Kinematics(thetas)
 
-iCirc = 0:.1:2*pi;
+iCirc = 0:.5:2*pi;
 x = sin(iCirc);
 y = cos(iCirc);
 x = [x,x].*.05;
@@ -22,15 +22,15 @@ links.link4  = struct('Link','4','Points',link4);
 
 worldLinks = KinemeticMap(links,thetas);
 
-link1 = collisionMesh(worldLinks.link1.Points);
-link2 = collisionMesh(worldLinks.link2.Points);
-link3 = collisionMesh(worldLinks.link3.Points);
-link4 = collisionMesh(worldLinks.link4.Points);
+% link1 = collisionMesh(worldLinks.link1.Points);
+% link2 = collisionMesh(worldLinks.link2.Points);
+% link3 = collisionMesh(worldLinks.link3.Points);
+% link4 = collisionMesh(worldLinks.link4.Points);
 
-show(link1)
-hold on
-show(link2)
-show(link3)
-show(link4)
-axis equal
+% show(link1)
+% hold on
+% show(link2)
+% show(link3)
+% show(link4)
+% axis equal
 end

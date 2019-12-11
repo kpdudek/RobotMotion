@@ -15,6 +15,7 @@ for iObstacle = 1:length(obstacles)
         break
     else
         flagCollision = false;
+    end
 end
 
 end

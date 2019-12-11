@@ -4,10 +4,15 @@ fig = figure('Name','Robot','Visible','off');
 print = false;
 count = 1;
 
-r1 = 0:22.5:360;
+r1 = 0:90:360;
 r2 = 0:45:90;
-r3 = 0:45:90;
-r4 = 0:45:90;
+r3 = 0:90:90;
+r4 = 0;
+
+iter = length(r1)*length(r2)*length(r3)*length(r4);
+
+grid = initRobot(iter);
+
 for iTheta1 = r1
     for iTheta2 = r2
         for iTheta3 = r3
@@ -19,7 +24,7 @@ for iTheta1 = r1
                     print = true;
                 end
                 thetas = [iTheta1,iTheta2,iTheta3,iTheta4];
-                Kinematics(thetas)
+                grid(count) = Kinematics(thetas);
                 hold on
                 percent = (count / iter) * 100;
                 hspace()
@@ -33,6 +38,8 @@ end
 hspace()
 fprintf('Done!\n')
 set(fig,'Visible','on')
+
+plotLinks(grid)
 
 
 
