@@ -1,26 +1,37 @@
-function [worldLinks] = Kinematics(thetas)
+%function [worldLinks] = Kinematics(thetas)
+%Defines the geometry of the robot in the local frame of each link. The
+%robot is a four link manipulator consisting of cylindrical links
+%
+%Calls function [worldLinks] = KinemeticMap(robot) to transform the
+%coordinates of the links and the end effector to the world frame
+%
+%The robot is defined as a struct with fields:
+%   link1 : The points defining the mesh of link 1
+%   link2 : The points defining the mesh of link 2
+%   link3 : The points defining the mesh of link 3
+%   link4 : The points defining the mesh of link 4
+%     EEF : The coordinate of the tip of the end effector 
+%       j : The joint angles of the configuration
 
+function [worldLinks] = Kinematics(thetas)
 iCirc = 0:.5:2*pi;
 x = sin(iCirc);
 y = cos(iCirc);
 x = [x,x].*.05;
 y = [y,y].*.05;
-z = zeros(size(iCirc));
+z_zero = zeros(size(iCirc));
 
 
-z = @(length) [z,ones(size(iCirc))*length];
+
+
+z = @(length) [z_zero,ones(size(iCirc))*length];
 
 link1 = [x',y',z(.2)'];
-link2 = [x',y'-.1,z(.5)'];
+link2 = [x',y'-.1,z(.5)']; % y'-.1
 link3 = [x',y',z(.5)'];
 link4 = [x',y',z(.2)'];
 eef = [0;0;.2];
 
-% links.link1  = struct('Link','1','Points',link1);
-% links.link2  = struct('Link','2','Points',link2);
-% links.link3  = struct('Link','3','Points',link3);
-% links.link4  = struct('Link','4','Points',link4);
-% links.EEF = struct('Link','EEF','Points',eef);
 robot = initRobot(1);
 robot.link1 = link1;
 robot.link2 = link2;
@@ -31,15 +42,4 @@ robot.j = thetas;
 
 worldLinks = KinemeticMap(robot);
 
-% link1 = collisionMesh(worldLinks.link1.Points);
-% link2 = collisionMesh(worldLinks.link2.Points);
-% link3 = collisionMesh(worldLinks.link3.Points);
-% link4 = collisionMesh(worldLinks.link4.Points);
-
-% show(link1)
-% hold on
-% show(link2)
-% show(link3)
-% show(link4)
-% axis equal
 end

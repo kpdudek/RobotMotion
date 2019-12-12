@@ -10,7 +10,7 @@ R4 = rot3d('y',t4);
 T1 = [0;0;0];
 T2 = [0;0;.2];
 T3 = [0;0;.5];
-T4 = [0;0;.56];
+T4 = [0;0;.5];
 
 for iPoint = 1:length(links.link1)
     links.link1(iPoint,:) = (R1*links.link1(iPoint,:)' + T1)';

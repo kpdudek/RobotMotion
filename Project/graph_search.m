@@ -8,6 +8,8 @@
 %neighbor of itself), or if you make some mistake during development.
 
 function [xPath,jPath,graphVector]=graph_search(graphVector,idxStart,idxGoal)
+xStart = graphVector(idxStart).x;
+xGoal = graphVector(idxGoal).x;
 
 for iNode = 1:length(graphVector)
     graphVector(iNode).g = [];
@@ -33,8 +35,8 @@ while ~isempty(pqOpen)
     for idxX = 1:length(idxNeighbors)
         [graphVector,pqOpen] = graph_expandElement(graphVector,idxNBest,idxNeighbors(idxX),idxGoal,pqOpen);
     end
-%     graphPlot(graphVector)
-%     pause(.00001)
+%     graphPlot(graphVector,1,[xStart,xGoal])
+%     pause(.000001)
 end
 
 [xPath,jPath] = graph_path(graphVector,idxStart,idxGoal);

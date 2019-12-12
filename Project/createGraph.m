@@ -17,13 +17,16 @@ iter = length(r1)*length(r2)*length(r3)*length(r4);
 QFree = initRobot(1);
 collision = initRobot(1);
 
-% Loop through every configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Loop through every joint angle specified and use forward kinematics to build
+% a grid of collision free poses
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 print = false;
 count = 1;
-for iTheta1 = r1
-    for iTheta2 = r2
-        for iTheta3 = r3
-            for iTheta4 = r4
+for iTheta4 = r4
+    for iTheta3 = r3
+        for iTheta2 = r2
+            for iTheta1 = r1
                 if ~print
                     iter = length(r1)*length(r2)*length(r3)*length(r4);
                     fprintf('%d Iterations will be computed...\n',iter)
@@ -57,7 +60,9 @@ fprintf('Done!\n')
 QFree = QFree(2:end);
 collision = collision(2:end);
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Determine neighbors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 fprintf('Determining neighbors...\n')
 graphVector=repmat(struct('neighbors',[],'neighborsCost',[],'x',[],'j',[]),length(QFree),1);
 for iConfig = 1:length(QFree)
@@ -76,13 +81,21 @@ for iConfig = 1:length(QFree)
     end
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Ensure the graph is bi-directional by looping through and checking if
 % node a has neighbor b, node b has neighbor a
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for iConfig = 1:length(graphVector)
-    do_stuff = 1;
+    for iNeighbor = graphVector(iConfig).neighbors
+        if ~ismember(iConfig,graphVector(iNeighbor).neighbors)
+            graphVector(iNeighbor).neighbors = [graphVector(iNeighbor).neighbors,iConfig];
+        end
+    end
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Determine neighbors cost
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 fprintf('Determining neighbors cost...\n')
 for iConfig = 1:length(graphVector)
     graphVector(iConfig).neighborsCost = zeros(1,length(graphVector(iConfig).neighbors));
@@ -92,9 +105,10 @@ for iConfig = 1:length(graphVector)
     end
 end
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Loop through every node in the graph and check if the motion between each
 % neighbor is collision free using linear interpolation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 print = false;
 count = 1;
 degreeInterval = 5; % Number of degrees to interpolate by between angles
