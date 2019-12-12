@@ -7,7 +7,7 @@
 %remaining stuck on malformed graphs (e.g., graphs containing a node as a
 %neighbor of itself), or if you make some mistake during development.
 
-function [xPath,graphVector]=graph_search(graphVector,idxStart,idxGoal)
+function [xPath,jPath,graphVector]=graph_search(graphVector,idxStart,idxGoal)
 
 for iNode = 1:length(graphVector)
     graphVector(iNode).g = [];
@@ -25,7 +25,7 @@ while ~isempty(pqOpen)
     idxClosed = [idxClosed,idxNBest];
     
     if idxNBest == idxGoal
-        xpath = idxStart;
+%         xpath = idxStart;
         break
     end
     
@@ -33,11 +33,11 @@ while ~isempty(pqOpen)
     for idxX = 1:length(idxNeighbors)
         [graphVector,pqOpen] = graph_expandElement(graphVector,idxNBest,idxNeighbors(idxX),idxGoal,pqOpen);
     end
-    graph_plot(graphVector,'start',idxStart,'goal',idxGoal)
-    pause(.00001)
+%     graphPlot(graphVector)
+%     pause(.00001)
 end
 
-xPath = graph_path(graphVector,idxStart,idxGoal);
+[xPath,jPath] = graph_path(graphVector,idxStart,idxGoal);
 end
 
 

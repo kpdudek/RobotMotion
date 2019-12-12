@@ -30,5 +30,5 @@ hold on
 plotObstacles(obstacles)
 axis equal
 
-% Save graph
+%%% Save graph
 save DenseTest graphVector QFree collision obstacles

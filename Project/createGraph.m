@@ -64,17 +64,33 @@ for iConfig = 1:length(QFree)
     graphVector(iConfig).x = QFree(iConfig).EEF;
     graphVector(iConfig).j = QFree(iConfig).j;
 
-    neighborCount = 4; % Must be even
-    if iConfig-(neighborCount/2) > 0 && iConfig+(neighborCount/2) < length(QFree)
-        graphVector(iConfig).neighbors = iConfig-(neighborCount/2):iConfig+(neighborCount/2);
-    elseif iConfig-(neighborCount/2) < 0
-        graphVector(iConfig).neighbors = iConfig:iConfig+2;
-    elseif iConfig+(neighborCount/2) > length(QFree)
-        graphVector(iConfig).neighbors = iConfig-(neighborCount/2):iConfig;
+    neighborCount = 2; % neighbors before and after
+    if iConfig-(neighborCount) > 0 && iConfig+(neighborCount) <= length(QFree)
+        graphVector(iConfig).neighbors = [iConfig-(neighborCount):iConfig-1, iConfig+1:iConfig+neighborCount];
+    elseif iConfig-(neighborCount) <= 0
+        diff = abs((iConfig-1) - (neighborCount));
+        graphVector(iConfig).neighbors = [length(QFree) - diff:length(QFree),iConfig+1:iConfig+neighborCount];
+    elseif iConfig+(neighborCount) > length(QFree)
+        diff = (iConfig+neighborCount) - length(QFree);
+        graphVector(iConfig).neighbors = [iConfig-(neighborCount):iConfig-1,1:diff+1];
     end
 end
 
+% Ensure the graph is bi-directional by looping through and checking if
+% node a has neighbor b, node b has neighbor a
+for iConfig = 1:length(graphVector)
+    do_stuff = 1;
+end
 
+% Determine neighbors cost
+fprintf('Determining neighbors cost...\n')
+for iConfig = 1:length(graphVector)
+    graphVector(iConfig).neighborsCost = zeros(1,length(graphVector(iConfig).neighbors));
+    for iNeighbor = 1:length(graphVector(iConfig).neighbors)
+        iGoal = graphVector(iConfig).neighbors(iNeighbor);
+        graphVector(iConfig).neighborsCost(iNeighbor) = graph_heuristic(graphVector,iConfig,iGoal);
+    end
+end
 
 
 % Loop through every node in the graph and check if the motion between each

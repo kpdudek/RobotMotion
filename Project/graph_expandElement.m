@@ -7,11 +7,6 @@
 %Algorithm  alg:astar.
 
 function [graphVector,pqOpen]=graph_expandElement(graphVector,idxNBest,idxX,idxGoal,pqOpen)
-% idxClosed = 1:length(graphVector);
-% idxOpen = zeros(1,length(pqOpen));
-% 
-% idxClosed = graphVector(idxNBest).neighbors;
-% idxNeighbors = graph_getExpandList(graphVector,idxX,idxClosed);
 gNBest = graphVector(idxNBest).g;
 
 heuristic = graph_heuristic(graphVector,idxX,idxGoal);
@@ -29,28 +24,3 @@ else
 end
 
 end
-% 
-% idxClosed = 1:length(graphVector);
-% idxOpen = zeros(1,length(pqOpen));
-% 
-% idxClosed = graphVector(idxNBest).neighbors;
-% idxNeighbors = graph_getExpandList(graphVector,idxX,idxClosed);
-% gNBest = graphVector(idxNBest).g;
-% 
-% for iNeighbor = 1:length(idxNeighbors)
-%     idxNeighbors(iNeighbor).backpointer = idxX;
-%     heuristic = graph_heuristic(graphVector,idxNeighbors(iNeighbors),idxGoal);
-%     cost = gNBest + graphVector(idxNBest).neighborsCost(find(graphVector(2).neighbors ==idxNeighbors));
-%     if priority_isMember(pqOpen,idxNeighbors(iNeighbor))
-%         idxMember = idxNeighbors(iNeighbor);
-%         if cost < graphVector(idxMember).g
-%             graphVector(idxMember).g = cost;
-%             graphVector(idxMember).backpointer = idxNBest;
-%         end
-%     else
-%         graphVector(idxNeighbors(iNeighbor)).cost = cost;
-%         graphVector(idxNeighbors(iNeighbor)).backpointer = idxNbest;
-%         pqOpen = priority_insert(pqOpen,idxNeighbors(iNeighbor),cost+heuristic);
-%     end
-% end
-% 
