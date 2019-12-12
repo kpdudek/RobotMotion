@@ -1,10 +1,3 @@
 function robot = initRobot(num)
-
-for i = 1:num
-    robot(i).link1  = struct('Link','1','Points',[]);
-    robot(i).link2  = struct('Link','2','Points',[]);
-    robot(i).link3  = struct('Link','3','Points',[]);
-    robot(i).link4  = struct('Link','4','Points',[]);
-    robot(i).EEF = struct('Link','EEF','Points',[]);
-end
+robot = repmat(struct('link1',[],'link2',[],'link3',[],'link4',[],'EEF',[],'j',[]),num,1);
 end
