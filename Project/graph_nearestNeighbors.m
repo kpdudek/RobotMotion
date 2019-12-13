@@ -7,8 +7,6 @@
 %    idxNeighbors (dim. [NNeighbors x 1]): indeces in graphVector of the neighbors of x. Generally, NNeighbors=k, except when graphVector contains less than k vertices, in which case all vertices are returned.
 function [idxNeighbors]=graph_nearestNeighbors(graphVector,x,k)
 
-% Convert EEF location to world coordinates and then find nearest neighbor
-
 NNodes=length(graphVector);
 %get locations of all nodes
 xAll=[graphVector.x];

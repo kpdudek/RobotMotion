@@ -4,7 +4,8 @@ close all;
 %   Load the graph
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load DenseTest.mat
-load DenseTest_Reversed.mat
+% load DenseTest_Reversed.mat
+load DenseTest_NearestNeighbors.mat
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Run A*
@@ -21,7 +22,7 @@ xStart = graphVector(idxStart).x;
 xGoal = graphVector(idxGoal).x;
 graphPlot(graphVector,1,[xStart,xGoal])
 hold on
-plot3(xPath(1,:),xPath(2,:),xPath(3,:),'b','LineWidth',1.5)
+plot3(xPath(1,:),xPath(2,:),xPath(3,:),'m','LineWidth',2)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Show path through environment with links
@@ -30,7 +31,7 @@ figure()
 plotThetas(jPath)
 hold on
 plotObstacles(obstacles)
-plot3(xPath(1,:),xPath(2,:),xPath(3,:),'b','LineWidth',1.5)
+plot3(xPath(1,:),xPath(2,:),xPath(3,:),'m','LineWidth',2)
 plot3(xStart(1,:),xStart(2,:),xStart(3,:),'g.','MarkerSize',30)
 plot3(xGoal(1,:),xGoal(2,:),xGoal(3,:),'r.','MarkerSize',30)
 axis equal
@@ -53,7 +54,7 @@ end
 plotThetas(jointTragectory)
 hold on
 plotObstacles(obstacles)
-plot3(xPath(1,:),xPath(2,:),xPath(3,:),'b','LineWidth',1.5)
+plot3(xPath(1,:),xPath(2,:),xPath(3,:),'m','LineWidth',2)
 plot3(xStart(1,:),xStart(2,:),xStart(3,:),'g.','MarkerSize',30)
 plot3(xGoal(1,:),xGoal(2,:),xGoal(3,:),'r.','MarkerSize',30)
 axis equal

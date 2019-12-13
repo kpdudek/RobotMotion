@@ -16,6 +16,8 @@ iter = length(r1)*length(r2)*length(r3)*length(r4);
 % Initialize structures for Free Space, Collision Space, and graphVector
 QFree = initRobot(1);
 collision = initRobot(1);
+% graphVector=repmat(struct('neighbors',[],'neighborsCost',[],'x',[],'j',[]),length(QFree),1);
+graphVector = struct('neighbors',[],'neighborsCost',[],'x',[],'j',[]);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Loop through every joint angle specified and use forward kinematics to build
@@ -40,6 +42,8 @@ for iTheta4 = r4
                 % Check if configuration is in collision or not
                 if ~robotIsCollision(worldLinks,obstacles)
                     QFree(end+1) = worldLinks;
+                    graphVector(end+1).x = worldLinks.EEF;
+                    graphVector(end).j = worldLinks.j;
                 else
                     collision(end+1) = worldLinks;
                 end
@@ -59,26 +63,26 @@ hspace()
 fprintf('Done!\n')
 QFree = QFree(2:end);
 collision = collision(2:end);
+graphVector = graphVector(2:end);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Determine neighbors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 fprintf('Determining neighbors...\n')
-graphVector=repmat(struct('neighbors',[],'neighborsCost',[],'x',[],'j',[]),length(QFree),1);
 for iConfig = 1:length(QFree)
-    graphVector(iConfig).x = QFree(iConfig).EEF;
-    graphVector(iConfig).j = QFree(iConfig).j;
-
-    neighborCount = 2; % neighbors before and after
-    if iConfig-(neighborCount) > 0 && iConfig+(neighborCount) <= length(QFree)
-        graphVector(iConfig).neighbors = [iConfig-(neighborCount):iConfig-1, iConfig+1:iConfig+neighborCount];
-    elseif iConfig-(neighborCount) <= 0
-        diff = abs((iConfig-1) - (neighborCount));
-        graphVector(iConfig).neighbors = [length(QFree) - diff:length(QFree),iConfig+1:iConfig+neighborCount];
-    elseif iConfig+(neighborCount) > length(QFree)
-        diff = (iConfig+neighborCount) - length(QFree);
-        graphVector(iConfig).neighbors = [iConfig-(neighborCount):iConfig-1,1:diff+1];
-    end
+    neighborCount = 6; % neighbors before and after
+    idxNeighbors = graph_jointNearestNeighbors(graphVector,iConfig,neighborCount);
+    graphVector(iConfig).neighbors = [graphVector(iConfig).neighbors,idxNeighbors];
+    
+%     if iConfig-(neighborCount) > 0 && iConfig+(neighborCount) <= length(QFree)
+%         graphVector(iConfig).neighbors = [iConfig-(neighborCount):iConfig-1, iConfig+1:iConfig+neighborCount];
+%     elseif iConfig-(neighborCount) <= 0
+%         diff = abs((iConfig-1) - (neighborCount));
+%         graphVector(iConfig).neighbors = [length(QFree) - diff:length(QFree),iConfig+1:iConfig+neighborCount];
+%     elseif iConfig+(neighborCount) > length(QFree)
+%         diff = (iConfig+neighborCount) - length(QFree);
+%         graphVector(iConfig).neighbors = [iConfig-(neighborCount):iConfig-1,1:diff+1];
+%     end
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
