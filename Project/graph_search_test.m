@@ -5,7 +5,9 @@ close all;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load DenseTest.mat
 % load DenseTest_Reversed.mat
-load DenseTest_NearestNeighbors.mat
+% load DenseTest_NearestNeighbors.mat
+% load superDenseTest_NearestNeighbors.mat
+load DenseTest_NearestNeighbors_UnsignedAngles.mat
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Run A*
@@ -32,8 +34,8 @@ plotThetas(jPath)
 hold on
 plotObstacles(obstacles)
 plot3(xPath(1,:),xPath(2,:),xPath(3,:),'m','LineWidth',2)
-plot3(xStart(1,:),xStart(2,:),xStart(3,:),'g.','MarkerSize',30)
-plot3(xGoal(1,:),xGoal(2,:),xGoal(3,:),'r.','MarkerSize',30)
+plot3(xStart(1,:),xStart(2,:),xStart(3,:),'rs','MarkerSize',20,'LineWidth',3)
+plot3(xGoal(1,:),xGoal(2,:),xGoal(3,:),'r+','MarkerSize',20,'LineWidth',3)
 axis equal
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -43,11 +45,34 @@ figure()
 degreeInterval = 5;
 jointTragectory = [];
 for iConfig = 1:length(jPath(1,:))-1
-    jointDiff = jPath(:,iConfig+1) - jPath(:,iConfig);
-    len = floor(max(jointDiff) / degreeInterval);
-    configs = zeros(4,len);
+    iNeighbor = iConfig+1;
+    jStart = zeros(1,4);
+    jGoal = zeros(1,4);
+    for iElem = 1:length(jStart)
+        v0 = [0;0];
+        v1 = [1;0];
+        v2 = [cos(deg2rad(jPath(iElem,iConfig)));sin(deg2rad(jPath(iElem,iConfig)))];
+        jStart(iElem) = rad2deg(edge_angle(v0,v1,v2,'unsigned'));
+        v2 = [cos(deg2rad(jPath(iElem,iConfig+1)));sin(deg2rad(jPath(iElem,iConfig+1)))];
+        jGoal(iElem) = rad2deg(edge_angle(v0,v1,v2,'unsigned'));
+    end
+    jointDiff = jStart-jGoal;
+    
     for iJoint = 1:4
-        configs(iJoint,:) = linspace(jPath(iJoint,iConfig),jPath(iJoint,iConfig+1),len);
+        if jointDiff(iJoint) < -180
+            jGoal(iJoint) = jGoal(iJoint)-360;
+        elseif jointDiff(iJoint) > 180
+            jGoal(iJoint) = 360-jGoal(iJoint);
+        end
+    end
+    
+    len = ceil(max(abs(jointDiff)) / degreeInterval);
+    if len > 0
+        configs = zeros(4,len);
+        for iJoint = 1:4
+            configs(iJoint,:) = linspace(jStart(iJoint),jGoal(iJoint),len);
+            
+        end
     end
     jointTragectory = [jointTragectory,configs];
 end
@@ -55,8 +80,8 @@ plotThetas(jointTragectory)
 hold on
 plotObstacles(obstacles)
 plot3(xPath(1,:),xPath(2,:),xPath(3,:),'m','LineWidth',2)
-plot3(xStart(1,:),xStart(2,:),xStart(3,:),'g.','MarkerSize',30)
-plot3(xGoal(1,:),xGoal(2,:),xGoal(3,:),'r.','MarkerSize',30)
+plot3(xStart(1,:),xStart(2,:),xStart(3,:),'rs','MarkerSize',20,'LineWidth',3)
+plot3(xGoal(1,:),xGoal(2,:),xGoal(3,:),'r+','MarkerSize',20,'LineWidth',3)
 axis equal
 
 

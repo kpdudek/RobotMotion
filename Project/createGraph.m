@@ -50,8 +50,10 @@ for iTheta4 = r4
                 
                 % Print percent complete
                 percent = (count / iter) * 100;
-                hspace()
-                fprintf('%2.1f\n',percent)
+                if mod(percent,5) < 1
+                    hspace()
+                    fprintf('%2.1f\n',percent)
+                end
                 
                 % Iterate counter
                 count = count + 1;
@@ -126,11 +128,33 @@ for iConfig = 1:length(graphVector)
     
     for iNeighbor = graphVector(iConfig).neighbors
         if iConfig ~= iNeighbor
-            jointDiff = graphVector(iNeighbor).j - graphVector(iConfig).j;
-            len = floor(max(jointDiff) / degreeInterval);
-            configs = zeros(4,len);
+            xStart = zeros(1,4);
+            xGoal = zeros(1,4);
+            for iElem = 1:length(graphVector(iConfig).j)
+                v0 = [0;0];
+                v1 = [1;0];
+                v2 = [cos(deg2rad(graphVector(iConfig).j(iElem)));sin(deg2rad(graphVector(iConfig).j(iElem)))];
+                xStart(iElem) = rad2deg(edge_angle(v0,v1,v2,'unsigned'));
+                v2 = [cos(deg2rad(graphVector(iNeighbor).j(iElem)));sin(deg2rad(graphVector(iNeighbor).j(iElem)))];
+                xGoal(iElem) = rad2deg(edge_angle(v0,v1,v2,'unsigned'));
+            end
+            
+            jointDiff = xStart-xGoal;
+            
             for iJoint = 1:4
-                configs(iJoint,:) = linspace(graphVector(iConfig).j(iJoint),graphVector(iNeighbor).j(iJoint),len);
+                if jointDiff(iJoint) < -180
+                    xGoal(iJoint) = xGoal(iJoint)-360;
+                elseif jointDiff(iJoint) > 180
+                    xGoal(iJoint) = 360-xGoal(iJoint);
+                end
+            end
+            
+            len = ceil((max(abs(jointDiff))) / degreeInterval);
+            if len > 0
+                configs = zeros(4,len);
+                for iJoint = 1:4
+                    configs(iJoint,:) = linspace(xStart(iJoint),xGoal(iJoint),len);
+                end
             end
             for iInterval = 1:len
                 worldLinks = Kinematics(configs(:,iInterval));
@@ -143,8 +167,10 @@ for iConfig = 1:length(graphVector)
     end
     
     percent = (count / iter) * 100;
+%     if mod(percent,5) < 1
     hspace()
     fprintf('%2.1f\n',percent)
+%     end
     count = count +1;
 end
 hspace()

@@ -6,7 +6,8 @@ NNodes=length(graphVector);
 %compute squared Euclidean distance
 distSquared = zeros(1,length(graphVector));
 for iNode = 1:length(graphVector)
-    diff = (j-graphVector(iNode).j).^2;
+%     diff = (j-graphVector(iNode).j).^2;
+    diff = graph_heuristic(graphVector,idxX,iNode);
     distSquared(iNode) = sqrt(sum(diff));
 end
 

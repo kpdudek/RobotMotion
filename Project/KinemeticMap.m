@@ -19,5 +19,5 @@ for iPoint = 1:length(links.link1)
     links.link4(iPoint,:) = (R1*R2*R3*R4*links.link4(iPoint,:)' + R1*R2*R3*T4 + R1*R2*T3 + R1*T2 + T1)';
 end
 
-links.EEF(:,1) = (R1*R2*R3*R4*links.EEF + R1*R2*R3*T4 + R1*R2*T3 + R1*T2 + T1)';
+links.EEF(:,1) = (R1*R2*R3*R4*links.EEF + R1*R2*R3*T4 + R1*R2*T3 + R1*T2 + T1);
 end
