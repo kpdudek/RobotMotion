@@ -13,6 +13,6 @@ end
 
 %sort and get first k neighbors
 [~,idxSorted]=sort(distSquared);
-idxNeighbors=[idxSorted(1:min(floor(num*(2/3)),NNodes)),idxSorted(min(4+floor(num*(1/3)),NNodes))];
+idxNeighbors=[idxSorted(1:min(num,NNodes))];
 
 end

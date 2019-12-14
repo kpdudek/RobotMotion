@@ -14,9 +14,9 @@
 %       j : The joint angles of the configuration
 
 function [worldLinks] = Kinematics(thetas)
-iCirc = 0:.5:2*pi;
-x = sin(iCirc);
-y = cos(iCirc);
+iCirc = linspace(0,2*pi,9);
+x = cos(iCirc);
+y = sin(iCirc);
 x = [x,x].*.05;
 y = [y,y].*.05;
 z_zero = zeros(size(iCirc));

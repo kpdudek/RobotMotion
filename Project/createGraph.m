@@ -50,7 +50,7 @@ for iTheta4 = r4
                 
                 % Print percent complete
                 percent = (count / iter) * 100;
-                if mod(percent,5) < 1
+                if mod(percent,5) < .25
                     hspace()
                     fprintf('%2.1f\n',percent)
                 end
@@ -72,7 +72,7 @@ graphVector = graphVector(2:end);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 fprintf('Determining neighbors...\n')
 for iConfig = 1:length(QFree)
-    neighborCount = 6; % neighbors before and after
+    neighborCount = 4; % neighbors before and after
     idxNeighbors = graph_jointNearestNeighbors(graphVector,iConfig,neighborCount);
     graphVector(iConfig).neighbors = [graphVector(iConfig).neighbors,idxNeighbors];
     
@@ -86,6 +86,20 @@ for iConfig = 1:length(QFree)
 %         graphVector(iConfig).neighbors = [iConfig-(neighborCount):iConfig-1,1:diff+1];
 %     end
 end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Chaos neighbors
+% Randomly connect two nodes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+fprintf('Assigning random connections...\n')
+numRandos = 80;
+for iRand = 1:20
+    upperBound = length(graphVector);
+    randNeighbor = randi([1,upperBound],1,2);
+    graphVector(randNeighbor(1)).neighbors(end+1) = randNeighbor(2);
+    graphVector(randNeighbor(2)).neighbors(end+1) = randNeighbor(1);
+end
+    
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Ensure the graph is bi-directional by looping through and checking if
@@ -167,10 +181,10 @@ for iConfig = 1:length(graphVector)
     end
     
     percent = (count / iter) * 100;
-%     if mod(percent,5) < 1
-    hspace()
-    fprintf('%2.1f\n',percent)
-%     end
+    if mod(percent,3) < .5
+        hspace()
+        fprintf('%2.1f\n',percent)
+    end
     count = count +1;
 end
 hspace()

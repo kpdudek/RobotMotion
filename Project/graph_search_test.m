@@ -7,15 +7,20 @@ close all;
 % load DenseTest_Reversed.mat
 % load DenseTest_NearestNeighbors.mat
 % load superDenseTest_NearestNeighbors.mat
-load DenseTest_NearestNeighbors_UnsignedAngles.mat
+% load DenseTest_NearestNeighbors_UnsignedAngles.mat
+load finalPaperGraph2.mat
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Run A*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 idxStart = 1;
-idxGoal = floor(length(graphVector)/2);
+idxGoal = floor(length(graphVector));
 
+tic;
 [xPath,jPath,graphVector] = graph_search(graphVector,idxStart,idxGoal);
+time = toc;
+
+fprintf('A* took %3.5f seconds\n',time)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Plot graph with backpointers and final path
@@ -25,6 +30,7 @@ xGoal = graphVector(idxGoal).x;
 graphPlot(graphVector,1,[xStart,xGoal])
 hold on
 plot3(xPath(1,:),xPath(2,:),xPath(3,:),'m','LineWidth',2)
+axis equal
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Show path through environment with links

@@ -1,17 +1,29 @@
-% load FinalPaperGraph.mat
-load DenseTest_NearestNeighbors_UnsignedAngles
+close all; clear; clc;
 
-xGoal = [-.5;-.8;.4];
-thetaStart = [-90;70;30;0];
-[jPotStart,jGraph,xGraph,jPotEnd,graphVector] = graph_search_startGoal(graphVector,thetaStart,xGoal);
+% load FinalPaperGraph.mat
+% load DenseTest_NearestNeighbors_UnsignedAngles
+load finalPaperGraph2.mat
+
+thetaStart = [-90;45;45;45];
+xGoal = [-.4;-.6;.5];
+
+tic;
+[jPotStart,jGraph,xGraph,jPotEnd,graphVector,t1,t2,t3] = graph_search_startGoal(graphVector,thetaStart,xGoal);
 % Combine joint paths
 jPath = [jPotStart(:,1:250:end),jGraph,jPotEnd(:,1:250:end)];
+time = toc;
+
+fprintf('Total planning took %3.5f seconds\n\n',time)
+fprintf('Onto map  : %3.5f seconds\n',t1)
+fprintf('On roadmap: %3.5f seconds\n',t2-t1)
+fprintf('Off map   : %3.5f seconds\n',t3-t2)
 
 figure()
 % Plot the obstacles and the robot tragectory
 plotObstacles(obstacles);
 hold on
 plotThetas(jPath);
+graphPlot(graphVector,1,[])
 
 % Plot the start and end of the 
 xStart = Kinematics(thetaStart);
