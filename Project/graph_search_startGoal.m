@@ -1,24 +1,30 @@
 %function [xPath,graphVector] = graph_search_startGoal(graphVector,xStart,xGoal)
 % This function makes use 
 
-function [jPotStart,jGraph,xGraph,jPotEnd,graphVector,t1,t2,t3]=graph_search_startGoal(graphVector,thetaStart,xGoal)
-repulsiveWeight = 0.01;
-stepSize = 0.04;
+function [jPotStart,jGraph,xGraph,jPotEnd,graphVector,t1,t2,t3]=graph_search_startGoal(graphVector,thetaStart,xGoal,obstacles)
 
-% tic;
+%%% Get on roadmap
+repulsiveWeight = 0.0001;
+stepSize = 0.045;
+steps = 3500;
+
 xStart = Kinematics(thetaStart);
 roadmapStart = graph_nearestNeighbors(graphVector,xStart.EEF,1);
-[jPotStart,uPotStart] = robot_potentialPlanner('conic',repulsiveWeight,stepSize,thetaStart,roadmapStart);
+roadmapStartX = graphVector(roadmapStart).x;
+[jPotStart,uPotStart] = robot_potentialPlanner('conic',repulsiveWeight,stepSize,thetaStart,roadmapStartX,obstacles,steps);
 t1 = toc;
 
-% tic;
+%%% On roadmap
 roadmapEnd = graph_nearestNeighbors(graphVector,xGoal,1);
 [xGraph,jGraph,graphVector] = graph_search(graphVector,roadmapStart,roadmapEnd);
 t2 = toc;
 
-% tic;
+%%% Get off roadmap
+repulsiveWeight = 0.01;
+stepSize = 0.1;
+steps = 2500;
 thetaGraphEnd = graphVector(roadmapEnd).j';
-[jPotEnd,uPotEnd] = robot_potentialPlanner('conic',repulsiveWeight,stepSize,thetaGraphEnd,xGoal);
+[jPotEnd,uPotEnd] = robot_potentialPlanner('conic',repulsiveWeight,stepSize,thetaGraphEnd,xGoal,obstacles,steps);
 t3 = toc;
 end
 

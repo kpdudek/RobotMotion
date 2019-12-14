@@ -7,9 +7,9 @@
 %plot the results of the planner (since the output  @x   xPath from
 %potential_planner will really contain a sequence of join angles, rather than a
 %sequence of 2-D points). itemize
-function [xPath,UPath] = robot_potentialPlanner(shape,repulsiveWeight,epsilon,xStart,xGoal)
+function [xPath,UPath] = robot_potentialPlanner(shape,repulsiveWeight,epsilon,xStart,xGoal,obstacles,Nsteps)
 %shorthand for variables
-obstacles = getObstacles();
+% obstacles = getObstacles();
 
 %setup potential struct (exept goal)
 potential.shape = shape;
@@ -28,6 +28,6 @@ for iGoal=1:nbGoals
     potential.xGoal = xGoal(:,iGoal);
     %iterate over starts
     for iStart=1:nbStarts
-        [xPath, UPath] = potential_planner(xStart(:,iStart), obstacles, potential, epsilon, fHandles);
+        [xPath, UPath] = potential_planner(xStart(:,iStart), obstacles, potential, epsilon, fHandles,Nsteps);
     end
 end

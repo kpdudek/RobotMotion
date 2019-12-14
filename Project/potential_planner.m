@@ -3,9 +3,9 @@
 %planner with step size  @x   epsilon, and evaluates the cost along the returned
 %path. The planner must stop either after  @x   NSteps=1000 steps or when $ 
 %U<10^-3$.
-function [xPath,UPath]=potential_planner(xStart,obstacles,potential,epsilon,fHandles)
+function [xPath,UPath]=potential_planner(xStart,obstacles,potential,epsilon,fHandles,Nsteps)
 
-Nsteps = 2500; % number of steps
+% Nsteps = 2500; % number of steps
 steps = 1; % intitialize step counter
 xPath = zeros(4,Nsteps); % initialize xPath
 UPath = zeros(1,Nsteps); % initialize UPath

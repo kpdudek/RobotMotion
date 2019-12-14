@@ -91,14 +91,14 @@ end
 % Chaos neighbors
 % Randomly connect two nodes
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-fprintf('Assigning random connections...\n')
-numRandos = 80;
-for iRand = 1:20
-    upperBound = length(graphVector);
-    randNeighbor = randi([1,upperBound],1,2);
-    graphVector(randNeighbor(1)).neighbors(end+1) = randNeighbor(2);
-    graphVector(randNeighbor(2)).neighbors(end+1) = randNeighbor(1);
-end
+% fprintf('Assigning random connections...\n')
+% numRandos = 80;
+% for iRand = 1:20
+%     upperBound = length(graphVector);
+%     randNeighbor = randi([1,upperBound],1,2);
+%     graphVector(randNeighbor(1)).neighbors(end+1) = randNeighbor(2);
+%     graphVector(randNeighbor(2)).neighbors(end+1) = randNeighbor(1);
+% end
     
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

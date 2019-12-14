@@ -18,7 +18,7 @@ link3 = [x',y',z(.5)'];
 link4 = [x',y',z(.2)'];
 eef = [0;0;.2];
 
-thetas = [45,45,45,45];
+thetas = [0,45,45,0];
 robot = initRobot(1);
 robot.link1 = link1;
 robot.link2 = link2;
@@ -28,7 +28,7 @@ robot.EEF = eef;
 robot.j = thetas;
 
 
-thetaDot= [45;45;45;45];
+thetaDot= deg2rad([45;45;45;45]);
 J = jacobianMatrix(thetas);
 eefJacobianMat = J * thetaDot;
 % invX = pinv(J)*eefJacobianMat;
