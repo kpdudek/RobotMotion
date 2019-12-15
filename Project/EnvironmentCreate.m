@@ -2,14 +2,14 @@ close all; clear; clc;
 
 tic;
 % Create roadmap
-r1 = linspace(0,180,4);
-r2 = linspace(40,90,2);
-r3 = linspace(-30,0,1);
-r4 = linspace(-45,45,1);
+r1 = linspace(0,180,10);
+r2 = linspace(35,80,4);
+r3 = linspace(-30,30,3);
+r4 = linspace(-45,45,3);
 [graphVector,QFree,collision,obstacles] = createGraph(r1,r2,r3,r4);
 
 %%% Save graph
-save finalPaperGraph_SIMPLE graphVector QFree collision obstacles
+save SpeedImprovementTesting.mat graphVector QFree collision obstacles
 
 time = toc;
 

@@ -32,7 +32,7 @@ for iTheta4 = r4
                 if ~print
                     iter = length(r1)*length(r2)*length(r3)*length(r4);
                     fprintf('%d Iterations will be computed...\n',iter)
-                    pause(1)
+                    pause(.5)
                     print = true;
                 end
                 
@@ -50,7 +50,7 @@ for iTheta4 = r4
                 
                 % Print percent complete
                 percent = (count / iter) * 100;
-                if mod(percent,5) < .25
+                if mod(percent,5) < .5
                     hspace()
                     fprintf('%2.1f\n',percent)
                 end
@@ -98,8 +98,11 @@ numRandos = 200;
 for iRand = 1:numRandos
     upperBound = length(graphVector);
     randNeighbor = randi([1,upperBound],1,2);
-    graphVector(randNeighbor(1)).neighbors(end+1) = randNeighbor(2);
-    graphVector(randNeighbor(2)).neighbors(end+1) = randNeighbor(1);
+    
+    if ~ismember(randNeighbor(2),graphVector(randNeighbor(1)).neighbors)
+        graphVector(randNeighbor(1)).neighbors(end+1) = randNeighbor(2);
+        graphVector(randNeighbor(2)).neighbors(end+1) = randNeighbor(1);
+    end
 end
     
 
@@ -138,7 +141,7 @@ for iConfig = 1:length(graphVector)
     if ~print
         iter = length(graphVector);
         fprintf('%d Iterations will be computed...\n',iter)
-        pause(1)
+        pause(.5)
         print = true;
     end
     
@@ -183,7 +186,7 @@ for iConfig = 1:length(graphVector)
     end
     
     percent = (count / iter) * 100;
-    if mod(percent,3) < .5
+    if mod(percent,3) < .8
         hspace()
         fprintf('%2.1f\n',percent)
     end

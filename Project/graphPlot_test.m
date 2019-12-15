@@ -9,8 +9,9 @@ close all; clear; clc;
 % load finalPaperGraph2.mat
 % load finalPaperGraph3.mat
 % load finalPaperGraph_Dense.mat
-load finalPaperGraph_SIMPLE.mat
+% load finalPaperGraph_SIMPLE.mat
 
+load SpeedImprovementTesting.mat
 
 figure('Name','Graph','Color','white')
 graphPlot(graphVector,0,[])

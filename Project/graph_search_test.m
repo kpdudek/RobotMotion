@@ -8,13 +8,15 @@ close all;
 % load DenseTest_NearestNeighbors.mat
 % load superDenseTest_NearestNeighbors.mat
 % load DenseTest_NearestNeighbors_UnsignedAngles.mat
-load finalPaperGraph2.mat
+% load finalPaperGraph2.mat
+% load finalPaperGraph3.mat
+load SpeedImprovementTesting.mat
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Run A*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 idxStart = 1;
-idxGoal = floor(length(graphVector));
+idxGoal = floor(length(graphVector)-20);
 
 tic;
 [xPath,jPath,graphVector] = graph_search(graphVector,idxStart,idxGoal);
