@@ -21,7 +21,7 @@ t2 = toc;
 
 %%% Get off roadmap
 repulsiveWeight = 0.01;
-stepSize = 0.1;
+stepSize = 0.01;
 steps = 2500;
 thetaGraphEnd = graphVector(roadmapEnd).j';
 [jPotEnd,uPotEnd] = robot_potentialPlanner('conic',repulsiveWeight,stepSize,thetaGraphEnd,xGoal,obstacles,steps);

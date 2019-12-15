@@ -3,8 +3,8 @@ close all;
 % load FinalPaperGraph.mat
 % load DenseTest_NearestNeighbors_UnsignedAngles
 % load finalPaperGraph2.mat
-% load finalPaperGraph3.mat
-load finalPaperGraph_Dense.mat
+load finalPaperGraph3.mat
+% load finalPaperGraph_Dense.mat
 
 
 %%% Final Paper values
@@ -27,7 +27,7 @@ fprintf('Off map   : %3.5f seconds\n\n',t3-t2)
 xPotEnd = Kinematics(jPotEnd(:,end));
 sse = norm(xPotEnd.EEF - xGoal);
 fprintf('Steady state error: %2.3f\n',sse)
-% save('finalPaperGraph2_Path.mat','jPath')
+save('finalPaperGraph3_Path.mat','jPath')
 
 
 % %%% ONTO ROAD MAP
