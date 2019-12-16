@@ -3,12 +3,13 @@ close all;
 % load FinalPaperGraph.mat
 % load DenseTest_NearestNeighbors_UnsignedAngles
 % load finalPaperGraph2.mat
-load finalPaperGraph3.mat
+% load finalPaperGraph3.mat
 % load finalPaperGraph_Dense.mat
 
+load SpeedImprovementTesting.mat
 
 %%% Final Paper values
-thetaStart = [-100;20;0;0];
+thetaStart = [-100;40;20;0];
 xGoal = [-.75;.6;.8];
 
 % thetaStart = [-90;30;0;20];
@@ -30,74 +31,74 @@ fprintf('Steady state error: %2.3f\n',sse)
 save('finalPaperGraph3_Path.mat','jPath')
 
 
-% %%% ONTO ROAD MAP
-% figure('Color','white')
-% % Plot the obstacles and the robot tragectory
-% plotObstacles(obstacles);
-% hold on
-% plotThetas(jPotStart(:,1:500:end));
-% graphPlot(graphVector,0,[])
-% 
-% xStart = Kinematics(thetaStart);
-% plot3(xStart.EEF(1),xStart.EEF(2),xStart.EEF(3),'gs','MarkerSize',12,'LineWidth',7)
-% plot3(xGoal(1),xGoal(2),xGoal(3),'rs','MarkerSize',12,'LineWidth',4)
-% 
-% plot3(xGraph(1,1),xGraph(2,1),xGraph(3,1),'y*','MarkerSize',12,'LineWidth',9)
-% xlabel('x')
-% ylabel('y')
-% axis equal
-% 
-% %%% ON ROAD MAP
-% figure('Color','white')
-% % Plot the obstacles and the robot tragectory
-% plotObstacles(obstacles);
-% hold on
-% plotThetas(jGraph);
-% graphPlot(graphVector,1,[])
-% 
-% plot3(xStart.EEF(1),xStart.EEF(2),xStart.EEF(3),'gs','MarkerSize',12,'LineWidth',7)
-% plot3(xGoal(1),xGoal(2),xGoal(3),'rs','MarkerSize',12,'LineWidth',4)
-% 
-% plot3(xGraph(1,1),xGraph(2,1),xGraph(3,1),'y*','MarkerSize',12,'LineWidth',9)
-% plot3(xGraph(1,end),xGraph(2,end),xGraph(3,end),'c*','MarkerSize',12,'LineWidth',9)
-% 
-% xlabel('x')
-% ylabel('y')
-% axis equal
-% 
-% %%% OFF ROAD MAP
-% figure('Color','white')
-% % Plot the obstacles and the robot tragectory
-% plotObstacles(obstacles);
-% hold on
-% plotThetas(jPotEnd(:,1:500:end));
-% graphPlot(graphVector,0,[])
-% 
-% plot3(xStart.EEF(1),xStart.EEF(2),xStart.EEF(3),'gs','MarkerSize',12,'LineWidth',7)
-% plot3(xGoal(1),xGoal(2),xGoal(3),'rs','MarkerSize',12,'LineWidth',4)
-% 
-% plot3(xGraph(1,end),xGraph(2,end),xGraph(3,end),'c*','MarkerSize',12,'LineWidth',9)
-% 
-% 
-% xlabel('x')
-% ylabel('y')
-% axis equal
-% 
-% %%% TOTAL
-% figure('Color','white')
-% % Plot the obstacles and the robot tragectory
-% plotObstacles(obstacles);
-% hold on
-% plotThetas(jPath);
-% graphPlot(graphVector,0,[])
-% 
-% xStart = Kinematics(thetaStart);
-% plot3(xStart.EEF(1),xStart.EEF(2),xStart.EEF(3),'gs','MarkerSize',12,'LineWidth',7)
-% plot3(xGoal(1),xGoal(2),xGoal(3),'rs','MarkerSize',12,'LineWidth',4)
-% 
-% xlabel('x')
-% ylabel('y')
-% axis equal
+%%% ONTO ROAD MAP
+figure('Color','white')
+% Plot the obstacles and the robot tragectory
+plotObstacles(obstacles);
+hold on
+plotThetas(jPotStart(:,1:500:end));
+graphPlot(graphVector,0,[])
+
+xStart = Kinematics(thetaStart);
+plot3(xStart.EEF(1),xStart.EEF(2),xStart.EEF(3),'gs','MarkerSize',12,'LineWidth',7)
+plot3(xGoal(1),xGoal(2),xGoal(3),'rs','MarkerSize',12,'LineWidth',4)
+
+plot3(xGraph(1,1),xGraph(2,1),xGraph(3,1),'y*','MarkerSize',12,'LineWidth',9)
+xlabel('x')
+ylabel('y')
+axis equal
+
+%%% ON ROAD MAP
+figure('Color','white')
+% Plot the obstacles and the robot tragectory
+plotObstacles(obstacles);
+hold on
+plotThetas(jGraph);
+graphPlot(graphVector,1,[])
+
+plot3(xStart.EEF(1),xStart.EEF(2),xStart.EEF(3),'gs','MarkerSize',12,'LineWidth',7)
+plot3(xGoal(1),xGoal(2),xGoal(3),'rs','MarkerSize',12,'LineWidth',4)
+
+plot3(xGraph(1,1),xGraph(2,1),xGraph(3,1),'y*','MarkerSize',12,'LineWidth',9)
+plot3(xGraph(1,end),xGraph(2,end),xGraph(3,end),'c*','MarkerSize',12,'LineWidth',9)
+
+xlabel('x')
+ylabel('y')
+axis equal
+
+%%% OFF ROAD MAP
+figure('Color','white')
+% Plot the obstacles and the robot tragectory
+plotObstacles(obstacles);
+hold on
+plotThetas(jPotEnd(:,1:500:end));
+graphPlot(graphVector,0,[])
+
+plot3(xStart.EEF(1),xStart.EEF(2),xStart.EEF(3),'gs','MarkerSize',12,'LineWidth',7)
+plot3(xGoal(1),xGoal(2),xGoal(3),'rs','MarkerSize',12,'LineWidth',4)
+
+plot3(xGraph(1,end),xGraph(2,end),xGraph(3,end),'c*','MarkerSize',12,'LineWidth',9)
+
+
+xlabel('x')
+ylabel('y')
+axis equal
+
+%%% TOTAL
+figure('Color','white')
+% Plot the obstacles and the robot tragectory
+plotObstacles(obstacles);
+hold on
+plotThetas(jPath);
+graphPlot(graphVector,0,[])
+
+xStart = Kinematics(thetaStart);
+plot3(xStart.EEF(1),xStart.EEF(2),xStart.EEF(3),'gs','MarkerSize',12,'LineWidth',7)
+plot3(xGoal(1),xGoal(2),xGoal(3),'rs','MarkerSize',12,'LineWidth',4)
+
+xlabel('x')
+ylabel('y')
+axis equal
 
 
 

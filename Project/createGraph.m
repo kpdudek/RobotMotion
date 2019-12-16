@@ -5,7 +5,9 @@
 % to list of neighbors.
 % If a node has no neighbors, then remove it from graph
 
-function [graphVector,QFree,collision,obstacles] = createGraph(r1,r2,r3,r4)
+function [graphVector,QFree,collision,obstacles,times] = createGraph(r1,r2,r3,r4)
+% Create time struct
+times = struct();
 
 % Create obstacles
 obstacles = getObstacles();
@@ -16,7 +18,6 @@ iter = length(r1)*length(r2)*length(r3)*length(r4);
 % Initialize structures for Free Space, Collision Space, and graphVector
 QFree = initRobot(1);
 collision = initRobot(1);
-% graphVector=repmat(struct('neighbors',[],'neighborsCost',[],'x',[],'j',[]),length(QFree),1);
 graphVector = struct('neighbors',[],'neighborsCost',[],'x',[],'j',[]);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -25,6 +26,7 @@ graphVector = struct('neighbors',[],'neighborsCost',[],'x',[],'j',[]);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 print = false;
 count = 1;
+% tic;
 for iTheta4 = r4
     for iTheta3 = r3
         for iTheta2 = r2
@@ -67,9 +69,13 @@ QFree = QFree(2:end);
 collision = collision(2:end);
 graphVector = graphVector(2:end);
 
+time = toc;
+times.FK = time;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Determine neighbors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% tic;
 fprintf('Determining neighbors...\n')
 for iConfig = 1:length(QFree)
     neighborCount = 4; % neighbors before and after
@@ -86,13 +92,15 @@ for iConfig = 1:length(QFree)
 %         graphVector(iConfig).neighbors = [iConfig-(neighborCount):iConfig-1,1:diff+1];
 %     end
 end
+time = toc;
+times.GetNeighbors = time-times.FK;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Chaos neighbors
 % Randomly connect two nodes
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% tic;
 fprintf('Assigning random connections...\n')
-
 % TODO: check to see if they're already neighbors
 numRandos = 200;
 for iRand = 1:numRandos
@@ -104,12 +112,14 @@ for iRand = 1:numRandos
         graphVector(randNeighbor(2)).neighbors(end+1) = randNeighbor(1);
     end
 end
-    
+time = toc;
+times.ChaosNeighbors = time-times.GetNeighbors;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Ensure the graph is bi-directional by looping through and checking if
 % node a has neighbor b, node b has neighbor a
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% tic;
 for iConfig = 1:length(graphVector)
     for iNeighbor = graphVector(iConfig).neighbors
         if ~ismember(iConfig,graphVector(iNeighbor).neighbors)
@@ -117,10 +127,13 @@ for iConfig = 1:length(graphVector)
         end
     end
 end
+time = toc;
+times.BiDirectional = time-times.ChaosNeighbors;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Determine neighbors cost
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% tic;
 fprintf('Determining neighbors cost...\n')
 for iConfig = 1:length(graphVector)
     graphVector(iConfig).neighborsCost = zeros(1,length(graphVector(iConfig).neighbors));
@@ -129,14 +142,19 @@ for iConfig = 1:length(graphVector)
         graphVector(iConfig).neighborsCost(iNeighbor) = graph_heuristic(graphVector,iConfig,iGoal);
     end
 end
+time = toc;
+times.NeighborsCost = time-times.BiDirectional;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Loop through every node in the graph and check if the motion between each
 % neighbor is collision free using linear interpolation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% tic;
 print = false;
 count = 1;
-degreeInterval = 5; % Number of degrees to interpolate by between angles
+degreeInterval = 10; % Number of degrees to interpolate by between angles
+robot = getRobotGeometry();
+
 for iConfig = 1:length(graphVector)
     if ~print
         iter = length(graphVector);
@@ -174,9 +192,17 @@ for iConfig = 1:length(graphVector)
                 for iJoint = 1:4
                     configs(iJoint,:) = linspace(xStart(iJoint),xGoal(iJoint),len);
                 end
+            elseif len == 0
+                len = 1;
+            elseif len > 20
+                len = 20;
+            elseif len < 0
+                len = 1;
             end
+            
             for iInterval = 1:len
-                worldLinks = Kinematics(configs(:,iInterval));
+                robot.j = configs(:,iInterval);
+                worldLinks = KinemeticMap(robot);
                 if robotIsCollision(worldLinks,obstacles)
                     graphVector(iConfig).neighbors = graphVector(iConfig).neighbors(find(graphVector(iConfig).neighbors~=iNeighbor));
                     break
@@ -186,7 +212,7 @@ for iConfig = 1:length(graphVector)
     end
     
     percent = (count / iter) * 100;
-    if mod(percent,3) < .8
+    if mod(percent,2) < 1
         hspace()
         fprintf('%2.1f\n',percent)
     end
@@ -195,4 +221,7 @@ end
 hspace()
 fprintf('Done!\n')
 
+time = toc;
+times.EdgeChecking = time-times.NeighborsCost;
+times.Nodes = length(graphVector);
 end
